@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+</head>
+
+
+<body>
+    <div class="container">
+        <h2>Dancing Gif Search</h2>
+    </div>
+    <div id="gif-view"></div>
+
+    <form id="gif-form">
+        <label for="gif-input">Add a Gif!</label>
+        <input type="text" id="gif-input">
+
+        <input id="add-gif" type="submit" value="Add a gif">
+        <div id="images"></div>
+    </form>
+    <div id="images"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var topics = ["dance party", "dancing queens", "dancing babies", "dancing animals", "elderly dancing"];
+        function renderButtons() {
+            $("#gif-view").empty();
+            for (var i = 0; i < topics.length; i++) {
+                var a = $("<button>");
+                a.addClass("gif");
+                a.attr("data-name", topics[i]);
+                a.text(topics[i]);
+                $("#gif-view").append(a);
+            }
+        }
+        $("#add-gif").on("click", function (event) {
+            event.preventDefault();
+            var gifSearch = $("#gif-input").val().trim();
+            // topics.push(gifSearch);
+            topics.push(gifSearch);
+            renderButtons();
+            console.log("array", topics)
+
+        });
+        renderButtons();
+        $("button").on("click", function (event) {
+            // $(document).on("click"), function (event) {
+            var gif = $(this).attr("data-name");
+            // console.log('event', event.target['data-name']);
+            var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" +
+                gif + "&api_key=feIu9pYT3rdf8uShosS8WAKDnpEDO1Zb&limit=2";
+            var encodedUri = encodeURI(queryUrl);
+            console.log("gif", gif)
+            // console.log("query", encodedUri)
+
+            $.ajax({
+                url: encodedUri,
+                method: "GET"
+            })
+                .then(function (response) {
+                    // var imageUrl = response.data;
+                    // var image = $("<img>");
+                    // image.attr("scr", imageUrl);
+                    // image.attr("alt", "dancing");
+                    // $("#images").prepend(image);
+                    // console.log(response.data[]);
+                    // console.log("response", response);
+                    var results = response.data;
+                    for (var i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+                        // console.log(response.data);
+                        var rating = results[i].rating;
+                        console.log("rating", rating)
+                        var p = $("<p>").text("Rating: " + rating);
+
+                        var gifImage = $("<img>");
+                        gifImage.attr("src", results[i].images.fixed_height.url);
+                        console.log("results", results[i].images.fixed_height.url)
+
+                        gifDiv.html(p);
+                        gifDiv.prepend(gifImage);
+                        // $("#gif-view").empty();
+                        $("#gif-view").append(gifDiv);
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
