@@ -1,3 +1,33 @@
+body{
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnxnsrNH4vzqO2E7eO6q1Syj956hq7OH-wzOzipjfe-1RRqIqoA);
+    background-size: 100%;
+}
 button{
+    /* background-color:#53af41; */
+    background-color: #ff59ac;
+    border-radius: 8px;
+}
+h1{
+    color:#325d97;
+    text-shadow: 2px 2px #93d2f0;
+}
+#add-gif{
+    background-color:#53af41;
+    border-radius: 8px; 
+}
+div{
+    display: -webkit-inline-box;
+}
+p{
+    margin: 2px;
+    color: #ff59ac;
+    font-size: 25px;
     
+}
+.gifImg{
+    border: 10px solid #312666;
+    margin-bottom: 10px;
+}
+label{
+    color: yellow;
 }
